@@ -1,0 +1,25 @@
+{
+    "visual": {
+        "name": "timeline basic",
+        "displayName": "Timeline Basic",
+        "guid": "timelineVariation3D7EACB3A04E64A5FA9D86F6E035F3524",
+        "visualClassName": "Visual",
+        "version": "1.0.0",
+        "description": "Timeline Basic",
+        "supportUrl": "https://sharepointwebpartassets.blob.core.windows.net/$web/timeline-basic.html",
+        "gitHubUrl": ""
+    },
+    "apiVersion": "2.6.0",
+    "author": {
+        "name": "TheraTraQ",
+        "email": "powerbi-support@theratraq.com"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": null,
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": []
+}

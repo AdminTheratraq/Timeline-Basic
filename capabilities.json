@@ -1,0 +1,125 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Company",
+            "name": "Company",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Type",
+            "name": "Type",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Description",
+            "name": "Description",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Date",
+            "name": "Date",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Header Image",
+            "name": "HeaderImage",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Footer Image",
+            "name": "FooterImage",
+            "kind": "Grouping"
+        }
+    ],
+    "dataViewMappings": [
+        {
+            "table": {
+                "rows": {
+                    "select": [
+                        {
+                            "for": {
+                                "in": "Company"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "Type"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "Description"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "Date"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "HeaderImage"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "FooterImage"
+                            }
+                        }
+                    ]
+                },
+                "columns": {
+                    "select": [
+                        {
+                            "for": {
+                                "in": "Company"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "Type"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "Description"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "Date"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "HeaderImage"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "FooterImage"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "objects": {
+        "dataPoint": {
+            "displayName": "Timeline Settings",
+            "properties": {
+                "layout": {
+                    "displayName": "Layout",
+                    "type": {
+                        "text": true
+                    }
+                }
+            }
+        }
+    },
+    "sorting": {
+        "default": {}
+    },
+    "suppressDefaultTitle": true
+}
