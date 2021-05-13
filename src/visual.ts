@@ -153,7 +153,6 @@ export class Visual implements IVisual {
         var timelineData = Visual.CONVERTER(options.dataViews[0], this.host);
         timelineData = timelineData.slice(0, 100);
 
-        var baseUrl = 'https://strategicanalysisinc.sharepoint.com/sites/TheraTraQ/TheraTraQBusinessAnalytics/SiteAssets/PowerBI_images/';
         var minDate, maxDate;
         minDate = new Date(Math.min.apply(null, timelineData.map(d => d.Date)));
         maxDate = new Date(Math.max.apply(null, timelineData.map(d => d.Date)));
@@ -170,7 +169,7 @@ export class Visual implements IVisual {
         this.renderTitle(vpWidth, gWidth);
         this.renderXAxisCirclesAndQuarters();
         this.renderTimeRangeLines(gHeight, timelineData);
-        this.renderBox(timelineData, gWidth, gHeight, baseUrl);
+        this.renderBox(timelineData, gWidth, gHeight);
         this.svg.append('rect')
             .attr('class', 'border-rect')
             .attr('x', 0)
@@ -183,7 +182,7 @@ export class Visual implements IVisual {
         this.events.renderingFinished(options);
     }
 
-    private renderBox(timelineData: TimelineData[], gWidth, gHeight, baseUrl) {
+    private renderBox(timelineData: TimelineData[], gWidth, gHeight) {
         let _self = this;
         var gbox = this.svg.selectAll(".box")
             .data(timelineData).enter().append("g")
@@ -248,38 +247,10 @@ export class Visual implements IVisual {
             .attr('fill', '#000000')
             .attr('transform', 'translate(0,20)')
             .call(this.wrap, 90);
-        gbox.append("svg:image")
-            .attr('xlink:href', (d) => {
-                var icon = '';
-                if (d.Type === 'Clinical Trials') {
-                    icon = 'clinicalTrials.png';
-                }
-                else if (d.Type === 'Commercial') {
-                    icon = 'commercial.png';
-                }
-                else if (d.Type === 'Regulatory') {
-                    icon = 'regulatory.png'
-                }
-                else if (d.Type === 'Launch') {
-                    icon = 'launch.png'
-                }
-                return baseUrl + icon;
-            })
-            .attr('x', '60')
-            .attr('y', (d, i) => {
-                if (i % 2 === 0) {
-                    return -20;
-                }
-                else {
-                    return -30;
-                }
-            })
-            .attr('fill', '#000000')
-            .attr('transform', 'translate(0,20)');
-        this.renderLegend(gWidth, gHeight, baseUrl);
+        this.renderLegend(gWidth, gHeight);
     }
 
-    private renderLegend(gWidth, gHeight, baseUrl) {
+    private renderLegend(gWidth, gHeight) {
         var gLegend = this.svg.append('g')
             .attr('transform', 'translate(' + ((gWidth / 2) - 200) + ',' + (gHeight + 45) + ')')
             .attr('x', 0)
@@ -299,33 +270,17 @@ export class Visual implements IVisual {
         var legendLaunch = gLegend.append('g')
             .attr('transform', 'translate(500,0)');
 
-        legendClinical.append("svg:image")
-            .attr("xlink:href", baseUrl + 'clinicalTrials.png');
-
         legendClinical.append('text')
             .text('Clinical Trials')
             .attr('transform', 'translate(30,35)');
-
-
-        legendRegulatory.append("svg:image")
-            .attr("xlink:href", baseUrl + 'regulatory.png')
-            .attr('transform', 'translate(0,10)');
 
         legendRegulatory.append('text')
             .text('Regulatory')
             .attr('transform', 'translate(35,35)');
 
-        legendCommercial.append("svg:image")
-            .attr("xlink:href", baseUrl + 'commercial.png')
-            .attr('transform', 'translate(0,12)');
-
         legendCommercial.append('text')
             .text('Commercial')
             .attr('transform', 'translate(40,35)');
-
-        legendLaunch.append("svg:image")
-            .attr("xlink:href", baseUrl + 'launch.png')
-            .attr('transform', 'translate(0,10)');
 
         legendLaunch.append('text')
             .text('Launch')
@@ -338,8 +293,8 @@ export class Visual implements IVisual {
             .data(timelineData)
             .enter()
             .append("line")
-            .attr("x1", (d, i) => {
-                return _self.xScale(d.Date) + 20;
+            .attr("x1", (d:any, i) => {
+                return isNaN(_self.xScale(d.Date)) ? 0 : (_self.xScale(d.Date) + 20);
             })
             .attr('y1', (d, i) => {
                 if (i % 2 === 0) {
@@ -349,7 +304,7 @@ export class Visual implements IVisual {
                 }
             })
             .attr("x2", (d, i) => {
-                return _self.xScale(d.Date) + 20;
+                return isNaN(_self.xScale(d.Date)) ? 0 : (_self.xScale(d.Date) + 20);
             })
             .attr("y2", (d, i) => {
                 if (i % 2 === 0) {
