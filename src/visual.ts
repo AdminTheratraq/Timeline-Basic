@@ -152,20 +152,28 @@ export class Visual implements IVisual {
 
         var timelineData = Visual.CONVERTER(options.dataViews[0], this.host);
         timelineData = timelineData.slice(0, 100);
+        let minDate, maxDate, currentDate;
+        let timelineLocalData: TimelineData[] = [];
+        currentDate = new Date();
 
-        var minDate, maxDate;
-        minDate = new Date(Math.min.apply(null, timelineData.map(d => d.Date)));
-        maxDate = new Date(Math.max.apply(null, timelineData.map(d => d.Date)));
-        minDate = new Date(minDate.getFullYear(), 0, 1);
-        maxDate = new Date(maxDate.getFullYear() + 1, 0, 1);
+        if (timelineData.length > 0) {
+            minDate = new Date(currentDate.getFullYear() - 1, 0, 1);
+            timelineLocalData = timelineData.map<TimelineData>((d) => { if (d.Date.getFullYear() >= minDate.getFullYear()) { return d;} }).filter(e => e);
+            maxDate = new Date(currentDate.getFullYear() + 8, 0, 1);
+            timelineLocalData = timelineLocalData.map<TimelineData>((d) => { if (d.Date.getFullYear() <= maxDate.getFullYear()) { return d; } }).filter(e => e);
+        }
 
-        var minDateYearUpdated = new Date(minDate.getFullYear() - 1, 0, 1);
-        var maxDateYearUpdated = new Date(maxDate.getFullYear() + 2, 0, 1);
-
-
+        if (timelineLocalData.length > 0) {
+            timelineData = timelineLocalData;
+          } else if (timelineLocalData.length == 0) {
+            minDate = new Date(Math.min.apply(null, timelineData.map(d => d.Date)));
+            maxDate = new Date(Math.max.apply(null, timelineData.map(d => d.Date)));
+            minDate = new Date(minDate.getFullYear(), 0, 1);
+            maxDate = new Date(maxDate.getFullYear() + 1, 0, 1);
+        }
         this.getColorDataByYear(minDate, maxDate);
         this.renderHeaderAndFooter(timelineData);
-        this.renderXandYAxis(minDate, maxDate, gWidth, gHeight, minDateYearUpdated, maxDateYearUpdated);
+        this.renderXandYAxis(minDate, maxDate, gWidth, gHeight);
         this.renderTitle(vpWidth, gWidth);
         this.renderXAxisCirclesAndQuarters();
         this.renderTimeRangeLines(gHeight, timelineData);
@@ -235,13 +243,13 @@ export class Visual implements IVisual {
             .html((d) => {
                 return sanitizeHtml(d.Description);
             })
-            .attr('x', '100')
+            .attr('x', '20')
             .attr('y', (d, i) => {
                 if (i % 2 === 0) {
-                    return -20;
+                    return -5;
                 }
                 else {
-                    return -30;
+                    return -55;
                 }
             })
             .attr('fill', '#000000')
@@ -298,7 +306,7 @@ export class Visual implements IVisual {
             })
             .attr('y1', (d, i) => {
                 if (i % 2 === 0) {
-                    return _self.yScale(-27);
+                    return _self.yScale(-10);
                 } else {
                     return _self.yScale(10);
                 }
@@ -406,7 +414,7 @@ export class Visual implements IVisual {
             .attr('transform', 'translate(' + ((gWidth + 70) / 2 - 104) + ',25)');
     }
 
-    private renderXandYAxis(minDate, maxDate, gWidth, gHeight, minDateYearUpdated, maxDateYearUpdated) {
+    private renderXandYAxis(minDate, maxDate, gWidth, gHeight) {
         var xAxis;
 
         if (this.diff_years(minDate, maxDate) <= 1) {
@@ -425,7 +433,7 @@ export class Visual implements IVisual {
         else {
 
             this.xScale = d3.scaleTime()
-                .domain([minDateYearUpdated, maxDateYearUpdated])
+                .domain([minDate, maxDate])
                 .range([this.margin.left, gWidth]);
 
             xAxis = d3.axisBottom(this.xScale)
@@ -442,7 +450,7 @@ export class Visual implements IVisual {
             .tickSize(10);
 
         this.yScale = d3.scaleLinear()
-            .domain([-100, 100])
+            .domain([-105, 105])
             .range([gHeight, this.margin.top]);
 
         var yAxis = d3.axisLeft(this.yScale);
