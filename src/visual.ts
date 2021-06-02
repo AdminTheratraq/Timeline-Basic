@@ -24,7 +24,7 @@
 *  THE SOFTWARE.
 */
 "use strict";
-
+import "regenerator-runtime/runtime";
 import "core-js/stable";
 import "./../style/visual.less";
 import powerbi from "powerbi-visuals-api";
@@ -54,39 +54,6 @@ export interface TimelineData {
     selectionId: powerbi.visuals.ISelectionId;
 }
 
-export interface Timelines {
-    Timeline: TimelineData[]
-}
-
-export function logExceptions(): MethodDecorator {
-    return (target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<any>)
-        : TypedPropertyDescriptor<any> => {
-
-        return {
-            value: function () {
-                try {
-                    return descriptor.value.apply(this, arguments);
-                } catch (e) {
-                    throw e;
-                }
-            }
-        }
-    }
-}
-
-export function getCategoricalObjectValue<T>(objects: DataViewObjects, index: number, objectName: string, propertyName: string, defaultValue: T): T {
-    if (objects) {
-        let object = objects[objectName];
-        if (object) {
-            let property: T = <T>object[propertyName];
-            if (property !== undefined) {
-                return property;
-            }
-        }
-    }
-    return defaultValue;
-}
-
 export class Visual implements IVisual {
     private target: d3.Selection<HTMLElement, any, any, any>;
     private header: d3.Selection<HTMLElement, any, any, any>;
@@ -112,7 +79,6 @@ export class Visual implements IVisual {
         this.selectionManager = options.host.createSelectionManager();
     }
 
-    @logExceptions()
     public update(options: VisualUpdateOptions) {
         this.events.renderingStarted(options);
         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
