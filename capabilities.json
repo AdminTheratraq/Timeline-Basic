@@ -21,6 +21,11 @@
             "kind": "Grouping"
         },
         {
+            "displayName": "Company Link",
+            "name": "CompanyLink",
+            "kind": "Grouping"
+        },
+        {
             "displayName": "Header Image",
             "name": "HeaderImage",
             "kind": "Grouping"
@@ -54,6 +59,11 @@
                         {
                             "for": {
                                 "in": "Date"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "CompanyLink"
                             }
                         },
                         {
@@ -92,6 +102,11 @@
                         },
                         {
                             "for": {
+                                "in": "CompanyLink"
+                            }
+                        },
+                        {
+                            "for": {
                                 "in": "HeaderImage"
                             }
                         },
@@ -113,6 +128,23 @@
                     "displayName": "Layout",
                     "type": {
                         "text": true
+                    }
+                }
+            }
+        },
+        "displayYears":{
+            "displayName": "Display Years",
+            "properties": {
+                "PreviousYear": {
+                    "displayName": "Previous Year",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "FutureYear": {
+                    "displayName": "Future Year",
+                    "type": {
+                        "numeric": true
                     }
                 }
             }

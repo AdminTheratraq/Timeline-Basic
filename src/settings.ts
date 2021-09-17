@@ -31,9 +31,15 @@ import DataViewObjectsParser = dataViewObjectsParser.DataViewObjectsParser;
 
 export class VisualSettings extends DataViewObjectsParser {
       public dataPoint: dataPointSettings = new dataPointSettings();
+      public displayYears: DisplayYearsSettings = new DisplayYearsSettings();
       }
 
     export class dataPointSettings {
       public layout: string = "";
      }
+
+     export class DisplayYearsSettings {
+      public PreviousYear: number = 1;
+      public FutureYear: number = 8;
+    }
 
